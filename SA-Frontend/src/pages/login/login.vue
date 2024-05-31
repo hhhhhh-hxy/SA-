@@ -36,7 +36,7 @@
             // 存储token到localStorage
             localStorage.setItem("token", token);
 
-            console.log(JSON.stringify(response.data));
+            console.log(response.data.data.role);
             if(response.data.data.role == 1){
               // 使用 router.push 进行导航
               router.push({ path: "/student", query: { id: response.data.data.id } });
@@ -65,13 +65,13 @@
           <div class="flex-row items-center">
             <img
               class="shrink-0 image_2"
-              src="https://ide.code.fun/api/image?token=66568ee2a16e9e0012505d6b&name=0a922eefb13d518e76b860dcf37bda20.png"
+              src="/src/assets/xuexipingtai.png"
             />
             <span class="ml-20 font">学习平台</span>
           </div>
           <img
             class="self-start image_3"
-            src="https://ide.code.fun/api/image?token=66568ee2a16e9e0012505d6b&name=330178079c158c3d240847f0a21ea058.png"
+            src="/src/assets/x.png"
           />
         </div>
         <span class="self-center font text mt-27">登录</span>
@@ -89,7 +89,7 @@
         <!-- <div class="self-stretch group_2 view_2"></div> -->
         <input id="password" class="self-stretch group_2 view_2" placeholder="Password" type="password" v-model="password"/>
       </div>
-          <button class="flex-col justify-start items-center text-wrapper" @click="login">确认登陆</button>
+          <button class="flex-col justify-start items-center text-wrapper" @click="login">确认登录 </button>
     </div>
   </div>
 </template>
