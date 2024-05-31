@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../pages/login/login.vue';
 import TeacherCoursework from '../pages/teacherCoursework/teacherCoursework.vue'
+import StuAllHomework from '../pages/stuALLHomework/StuAllHomework.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/teacherCoursework',
     name: 'teacherCoursework',
     component: TeacherCoursework,
+  },
+  {
+    path: '/stuAllHomework',
+    name: 'stuAllHomework',
+    component: StuAllHomework,
   },
 ];
 
