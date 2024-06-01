@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../pages/login/login.vue';
 import TeacherCoursework from '../pages/teacherCoursework/teacherCoursework.vue'
 import StuAllHomework from '../pages/stuALLHomework/StuAllHomework.vue'
+import teacher_home from '../pages/teacher_home/jiaoshizhuye.vue'
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
     name: 'stuAllHomework',
     component: StuAllHomework,
   },
+  {
+    path: '/teacher_home',
+    name: 'teacher_home',
+    component: teacher_home,
+  }
 ];
 
 const router = createRouter({
