@@ -5,6 +5,7 @@ import StuAllHomework from '../pages/stuALLHomework/StuAllHomework.vue'
 import teacher_home from '../pages/teacher_home/jiaoshizhuye.vue'
 import teachercourseStudent from '../pages/teachercourseStudent/kechengxuesheng.vue'
 
+import Pigaizuoye2 from '../pages/teacher_correct2/pigaizuoye2.vue';
 const routes = [
   {
     path: '/login',
@@ -20,6 +21,11 @@ const routes = [
     path: '/stuAllHomework',
     name: 'stuAllHomework',
     component: StuAllHomework,
+  },
+  {
+    path: '/teacher_correct2',
+    name: 'teacher_correct2',
+    component: Pigaizuoye2,
   },
   {
     path: '/teacher_home',
