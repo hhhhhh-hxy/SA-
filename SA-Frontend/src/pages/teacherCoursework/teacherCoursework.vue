@@ -17,6 +17,7 @@
   //上个页面路由得到教师id和课程名字
   const teacherId = route.params.teacherId;
   const courseName = route.params.courseName;
+  const studentId = route.params.studentId;
 
   const homeworks = reactive([]);
   const homework = reactive({});
@@ -94,6 +95,7 @@
       const homeworksData = homeworkResponse.data.data;
       homeworks.splice(0);
       homeworks.push(...homeworksData);
+      const homeworkId = homework.id;
 
       console.log('作业信息：', homeworks);
 
@@ -191,7 +193,7 @@
               <td>{{ homework.end}}</td>
               <td>{{ homework.submitted }}/{{ homework.total }}</td>
               <!-- 跳转该作业的所有提交页 -->
-              <td><router-link  :to="'/submission_all/' + homework.id" class="font_2 text_2">查看详情</router-link></td>
+              <td><router-link  :to="'/teachercheckhw/' + homework.id" class="font_2 text_2">查看详情</router-link></td>
               <div class="shrink-0 divider mt-79"></div>
             </tr>
           </tbody>
