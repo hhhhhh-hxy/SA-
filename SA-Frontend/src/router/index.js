@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../pages/login/login.vue';
 import TeacherCoursework from '../pages/teacherCoursework/teacherCoursework.vue'
 import StuAllHomework from '../pages/stuALLHomework/StuAllHomework.vue'
-import Pigaizuoye1 from '../pages/pigaizuoye1/pigaizuoye1.vue';
+import Teachercheckhw from '../pages/teachercheckhw/teachercheckhw.vue';
 
 const routes = [
   {
@@ -23,7 +23,7 @@ const routes = [
   {
     path: '/teachercheckhw/:id',
     name: 'teachercheckhw',
-    component: teachercheckhw,
+    component: Teachercheckhw,
   }
 ];
 
