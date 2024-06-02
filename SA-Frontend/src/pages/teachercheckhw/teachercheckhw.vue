@@ -18,12 +18,12 @@ console.log('homeworkId:', homeworkId);  // 调试 homeworkId
 
 const homeworks = reactive([]);
 const homework = reactive({});
-
+const status = 1;
 // 挂载时获取作业信息展示在页面
 onMounted(async () => {
   try {
     const homeworkResponse = await axios.get(
-      `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/teacher/getAll/${homeworkId}`, {
+      `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/teacher/getAll/${homeworkId}`,status, {
         headers: {
           token: `${token}`,
         }
