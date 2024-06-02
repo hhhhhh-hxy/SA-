@@ -5,6 +5,7 @@ import StuAllHomework from '../pages/stuALLHomework/StuAllHomework.vue'
 import teacher_home from '../pages/teacher_home/jiaoshizhuye.vue'
 import teachercourseStudent from '../pages/teachercourseStudent/kechengxuesheng.vue'
 import xueshengzhuye from '../pages/teacher_home/jiaoshizhuye.vue'
+import xueshengxuanke from '../pages/stu_homeselected/xueshengzhuye.vue'
 
 import Pigaizuoye2 from '../pages/teacher_correct2/pigaizuoye2.vue';
 const routes = [
@@ -42,6 +43,11 @@ const routes = [
     path: '/xueshengzhuye',
     name: 'xueshengzhuye',
     component: xueshengzhuye,
+  },
+  {
+    path: '/xueshengxuanke',
+    name: 'xueshengxuanke',
+    component: xueshengxuanke,
   }
 ];
 
