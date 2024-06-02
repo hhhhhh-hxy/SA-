@@ -4,6 +4,7 @@ import TeacherCoursework from '../pages/teacherCoursework/teacherCoursework.vue'
 import StuAllHomework from '../pages/stuALLHomework/StuAllHomework.vue'
 import teacher_home from '../pages/teacher_home/jiaoshizhuye.vue'
 import teachercourseStudent from '../pages/teachercourseStudent/kechengxuesheng.vue'
+import xueshengzhuye from '../pages/teacher_home/jiaoshizhuye.vue'
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/teachercourseStudent',
     name: 'teachercourseStudent',
     component: teachercourseStudent,
+  },
+  {
+    path: '/xueshengzhuye',
+    name: 'xueshengzhuye',
+    component: xueshengzhuye,
   }
 ];
 
