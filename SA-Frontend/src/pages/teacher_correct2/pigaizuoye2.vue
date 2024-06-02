@@ -32,7 +32,7 @@ const router = useRouter();
   </div>
   <div class="flex-col section_2">
     <div class="flex-row group_3">
-      <router-link  :to="{path:'/pigaizuoye1',query:{teacherid:teacherId}}" class="font_2 text_2 text_4">已批改</router-link>
+      <router-link  :to="{path:'/teacher_correct2',query:{teacherid:teacherId}}" class="font_2 text_2 text_4">已批改</router-link>
       &nbsp;&nbsp;&nbsp; <!-- 使用空格作为间隔 -->
       <span class="font_2 text_5 ml-45">待批改</span>
     </div>

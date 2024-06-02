@@ -1,23 +1,77 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+const props = defineProps({});
 
+const showModal = ref(false);
+const delModal = ref(false);
+
+//新的课程名
+const newcourseName = ref('');
+//新课程的描述
+const newcourseDetails = ref('');
+
+const router = useRouter();
 const courses = ref([]);
 
+const token = localStorage.getItem('token');
+console.log(token);
+
+//挂载时获取课程
 onMounted(async () => {
   await fetchCourses();
 });
 
+//添加新的课程
+const saveCourse = async () => {
+  try {
+    // 发送 POST 请求将课程信息传回后端
+    // console.log(newcourseName.value)
+    // console.log(newcourseDetails.value)
+    const response = await fetch('http://127.0.0.1:4523/m1/4275697-3917645-default/course/add', {
+      method: 'POST',
+      headers: {
+        token : token
+      },
+      body: JSON.stringify({
+        title: newcourseName.value,
+        description: newcourseDetails.value
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to save course.');
+    }
+
+    // 清空表单
+    newcourseName.value = '';
+    newcourseDetails.value = '';
+
+    // 关闭模态框
+    showModal.value = false;
+    //重新加载页面
+    fetchCourses();
+
+    console.log('课程信息已成功传回后端');
+  } catch (error) {
+    console.error('保存课程失败:', error.message);
+  }
+
+};
+
+//展示课程
 const fetchCourses = async () => {
-  const token = localStorage.getItem('token');
   // if (!token) {
   //   console.error('Token not found in localStorage');
   //   return;
   // }
 
   try {
-    const response = await fetch('http://nsz3s9.natappfree.cc/course/teacher/display/all', {
+    const response = await fetch('http://127.0.0.1:4523/m1/4275697-3917645-default/course/teacher/display/all', {
       headers: {
-        'token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoyLCJpZCI6MiwidXNlcm5hbWUiOiLmnZzogIHluIgiLCJleHAiOjE3MjUwOTQ2NjN9.plta-jHjmA3sm8SspIv6MCv-P3zirwLdFJwY1TaUOd4'
+      // 'token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoyLCJpZCI6MiwidXNlcm5hbWUiOiLmnZzogIHluIgiLCJleHAiOjE3MjUwOTQ2NjN9.plta-jHjmA3sm8SspIv6MCv-P3zirwLdFJwY1TaUOd4'
+        token : token,
       }
     });
 
@@ -34,9 +88,52 @@ const fetchCourses = async () => {
       imageSrc: course.imageSrc,
       descriptionImage: course.descriptionImage
     }));
+    // console.log("courses",courses.value)
   } catch (error) {
     console.error('获取课程信息失败:', error);
   }
+};
+
+//删除课程
+const confirmDeleteCourse = () => {
+  delModal.value = true;
+  console.log("delModal.value = true");
+};
+
+const deleteCourse = async (courseID) => {
+  try {
+    const id = courseID;
+    console.log("id:", id);
+
+    // 设置请求头参数
+    const config = {
+      headers: {
+        token : token,
+      }
+    };
+
+    // 发送删除请求到服务器
+    const response = await axios.post(`http://127.0.0.1:4523/m1/4275697-3917645-default/course/del/${id}`, null, config); 
+
+    // 根据服务器响应处理逻辑
+    if (response.status === 200) {
+      // 成功删除课程，关闭模态框
+      delModal.value = false;
+      //重新加载页面
+      fetchCourses();
+      console.log('删除课程成功');
+    } else {
+      // 处理删除失败的情况，比如显示错误信息
+      console.error('删除课程失败');
+    }
+  } catch (error) {
+    // 处理网络错误等异常情况
+    console.error('删除课程时出错:', error);
+  }
+};
+
+const cancelDelete = () => {
+  delModal.value = false;
 };
 </script>
 
@@ -62,7 +159,34 @@ const fetchCourses = async () => {
     <div class="flex-col section_2">
       <div class="flex-row justify-between items-center group_3">
         <span class="text_4">我教的课</span>
-        <div class="flex-col justify-start items-center text-wrapper"><span class="text_5">+创建课程</span></div>
+        <!-- Trigger button for the modal -->
+        <button @click="showModal = true" class="open-modal-button">创建课程</button>
+
+        <!-- Modal -->
+        <div v-if="showModal" class="modal">
+          <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header">
+              <span class="modal-title">创建课程</span>
+              <span @click="showModal = false" class="close-modal-button">&times;</span>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="courseName">课程名称：</label>
+                <input type="text" id="courseName" v-model="newcourseName" placeholder="请输入课程名称" />
+              </div>
+              <div class="form-group">
+                <label for="courseDetails">课程详情：</label>
+                <textarea id="courseDetails" v-model="newcourseDetails" placeholder="请输入课程详情"></textarea>
+              </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button @click="saveCourse" class="confirm-button">确认</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="courses-container">
         <div v-for="(course, index) in courses" :key="index" class="course-card">
@@ -72,8 +196,17 @@ const fetchCourses = async () => {
             </div>
             <img
               class="image_2"
-              src="https://ide.code.fun/api/image?token=6657cb37602bd20012644658&name=082b022bcfadc0ea9e2a1bcbb92398f6.png"
-            />
+              src="/src/assets/x.png" 
+              @click="confirmDeleteCourse"
+              />
+             <!-- src="https://ide.code.fun/api/image?token=6657cb37602bd20012644658&name=082b022bcfadc0ea9e2a1bcbb92398f6.png"-->
+              <div v-if="delModal" class="modal">
+                <div class="dialog">
+                  <p>确定要删除该课程吗？</p>
+                  <button @click="deleteCourse(course.id)"class="confirm">确定</button>
+                  <button @click="cancelDelete"class="cancel">取消</button>
+                </div>
+              </div>
           </div>
           <span class="course-title">{{ course.title }}</span>
           <div class="course-description">
@@ -243,4 +376,148 @@ const fetchCourses = async () => {
   .text_8 {
     text-transform: uppercase;
   }
+  .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  position: relative;
+}
+
+.close-modal-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.confirm-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.confirm-button:hover {
+  background-color: #0056b3;
+}
+
+.open-modal-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.open-modal-button:hover {
+  background-color: #0056b3;
+}
+
+.button {
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+.dialog {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 300px;
+            width: 100%;
+            text-align: center;
+        }
+        .dialog p {
+            margin: 0 0 20px;
+            font-size: 16px;
+            color: #333;
+        }
+        .dialog button {
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .dialog .confirm {
+            background-color: #2196F3;
+            color: white;
+        }
+        .dialog .cancel {
+            background-color: #9E9E9E;
+            color: white;
+            margin-left: 10px;
+        }
+        .dialog button:hover {
+            opacity: 0.8;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 </style>
