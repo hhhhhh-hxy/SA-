@@ -95,7 +95,7 @@
       const homeworksData = homeworkResponse.data.data;
       homeworks.splice(0);
       homeworks.push(...homeworksData);
-      const homeworkId = homework.id;
+      // const homeworkId = homework.id;
 
       console.log('作业信息：', homeworks);
 

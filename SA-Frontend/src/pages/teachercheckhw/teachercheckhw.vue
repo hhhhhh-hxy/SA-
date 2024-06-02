@@ -16,96 +16,42 @@ const courseName = route.params.courseName;
 
 console.log('homeworkId:', homeworkId);  // 调试 homeworkId
 
-const item_data = reactive({
-  gradedItems: [],
-});
+const homeworks = reactive([]);
+const homework = reactive({});
 
-/* onMounted(async () => {
-  try { */
-    // 模拟数据
-    /* const homeworksData = [
-      {
-        submitId: 1,
-        comment: "xxxxxx",
-        studentid: "123",
-        studentName: "张三",
-        submitTime: "2024-05-06",
-        content: "xxxxxx",
-        status: 1,
-        statusDesc: "已批改",
-        score: 87
-      },
-      {
-        submitId: 2,
-        comment: "xxxxxx",
-        studentid: "123",
-        studentName: "张三",
-        submitTime: "2024-05-06",
-        content: "xxxxxx",
-        status: 1,
-        statusDesc: "已批改",
-        score: 94
-      }
-    ]; */
-
-    // 假设API请求成功
-    /* const status = 1;
+// 挂载时获取作业信息展示在页面
+onMounted(async () => {
+  try {
     const homeworkResponse = await axios.get(
-      `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/teacher/getAll/${homeworkId}`, status,{
+      `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/teacher/getAll/${homeworkId}`, {
         headers: {
           token: `${token}`,
         }
       }
     );
     const homeworksData = homeworkResponse.data.data;
-   console.log("homeworkData:",homeworksData);
+    console.log("homeworkData:", homeworksData);
 
-    item_data.gradedItems.splice(0);
-    homeworksData.forEach(item => {
-      if (item.status === 1) {
-        const homework = {
-          submitId: item.submitId,
-          comment: item.comment,
-          studentid: item.studentid,
-          studentName: item.studentName,
-          submitTime: item.submitTime,
-          content: item.content,
-          status: item.status,
-          statusDesc: item.statusDesc,
-          score: item.score
-        };
-        item_data.gradedItems.push(homework);
-      }
-    });
+    homeworks.splice(0);
+    homeworks.push(...homeworksData);
+    /* homeworks.push(...homeworksData.filter(item => item.status === 1).map(item => ({
+      submitId: item.submitId,
+      comment: item.comment,
+      studentid: item.studentid,
+      studentName: item.studentName,
+      submitTime: item.submitTime,
+      content: item.content,
+      status: item.status,
+      statusDesc: item.statusDesc,
+      score: item.score
+    }))); */
 
-    console.log('作业详情：', item_data);
+    console.log('作业详情：', homeworks);
 
   } catch (error) {
     console.error('获取作业详情失败', error);
   }
-}); */
-const status = 1;
- onMounted(async () => {
-    try {
-      const homeworkResponse = await axios.get(
-          `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/teacher/getAll/${homeworkId}`, status,{
-            headers: {
-              token: `${token}`,
-            }
-          });
-
-      const homeworksData = homeworkResponse.data.data;
-      homeworks.splice(0);
-      homeworks.push(...homeworksData);
-      const homeworkId = homework.id;
-
-      console.log('作业信息：', homeworks);
-
-    } catch (error) {
-      console.error('获取作业列表失败', error);
-    }
-  });
-  
+});
 
 const goBack = () => {
   router.push('/teacherCoursework');  // 替换为实际的返回页面路由
@@ -144,18 +90,18 @@ const goToUngradedPage = () => {
         <div class="flex-col list-item" v-for="(homework, index) in homeworks" :key="index">
           <div class="flex-row group_4">
             <div class="flex-row">
-              <span class="font_3 text_6">作业:{{id}}</span>
+              <span class="font_3 text_6">作业:{{homework.submitId}}</span>
               <span class="font_3 ml-43">课程:{{courseName}}</span>
             </div>
-            <span class="font_3 text_7 ml-102">学生:{{homeworkData.studentName}}</span>
+            <span class="font_3 text_7 ml-102">学生:{{homework.studentName}}</span>
           </div>
           <div class="flex-row mt-13">
             <div class="flex-col justify-start items-start flex-1 text-wrapper">
-              <span class="font_3 text_8">作业详情:{{homeworkData.content}}</span>
+              <span class="font_3 text_8">作业详情:{{homework.content}}</span>
             </div>
             <div class="flex-col items-start self-start group_5 ml-27">
-              <span class="font_3">分数:{{homeworkData.score}}</span>
-              <span class="font_3 text_9 mt-17">评语:{{homeworkData.comment}}</span>
+              <span class="font_3">分数:{{homework.score}}</span>
+              <span class="font_3 text_9 mt-17">评语:{{homework.comment}}</span>
             </div>
           </div>
         </div>
@@ -163,6 +109,8 @@ const goToUngradedPage = () => {
     </div>
   </div>
 </template>
+
+
 
 <style scoped lang="css">
 .ml-21 {
