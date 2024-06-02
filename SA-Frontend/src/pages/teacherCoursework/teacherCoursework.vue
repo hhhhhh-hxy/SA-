@@ -117,7 +117,7 @@
       <div class="flex-row items-center group_2">
         <!-- 跳转教师主页 -->
         <router-link to="/teacher_homepage" class="font_2 text_2 text_3">教师主页</router-link>
-        <router-link  :to="{path:'/pigaizuoye1',query:{teacherid:teacherId}}" class="font_2 text_2 text_4">批改作业</router-link>
+        <!-- <router-link  :to="{path:'/teacher_correct1',query:{teacherid:teacherId}}" class="font_2 text_2 text_4">批改作业</router-link> -->
         <div class="flex-row items-center shrink-0 group_3">
           <span class="font text_5">课程名称:{{courseName}}</span>
           <div class="flex-row items-center shrink-0 ml-59">
