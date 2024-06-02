@@ -151,11 +151,11 @@
                       </div>
                       <div class="input-group">
                           <span class="self-start font">课程名称：</span>
-                          <input type="text" placeholder="请输入课程名称" class="font_2 input-style" v-model="homeworkData.title"/> 
+                          <input type="text" placeholder="请输入课程名称" class="font_2 input-style" v-model="homeworkData.title" required/> 
                       </div>
                       <div class="input-group">
                           <span class="self-start font">作业内容：</span>
-                          <input type="text" placeholder="请输入作业内容" class="font_2 input-style" v-model="homeworkData.description"/> 
+                          <input type="text" placeholder="请输入作业内容" class="font_2 input-style" v-model="homeworkData.description" required/> 
                       </div>
                       <div class="flex-row justify-start items-start group_5">
                           <div class="flex-col relative">
@@ -191,7 +191,7 @@
               <td>{{ homework.end}}</td>
               <td>{{ homework.submitted }}/{{ homework.total }}</td>
               <!-- 跳转该作业的所有提交页 -->
-              <td><router-link  :to="'/submission_all/' + homework.id" class="font_2 text_2">查看详情</router-link></td>
+              <td><router-link  :to="'/pigaizuoye1/' + homework.id" class="font_2 text_2">查看详情</router-link></td>
               <div class="shrink-0 divider mt-79"></div>
             </tr>
           </tbody>

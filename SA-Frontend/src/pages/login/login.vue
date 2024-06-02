@@ -39,9 +39,9 @@
             console.log(response.data.data.role);
             if(response.data.data.role == 1){
               // 使用 router.push 进行导航
-              router.push({ path: "/student", query: { id: response.data.data.id } });
+              router.push({ path: "/student", query: { id: response.data.data.id,username:response.data.data.username } });
             }else if(response.data.data.role == 2){
-              router.push({ path: "/teacher", query: { id: response.data.data.id } });
+              router.push({ path: "/teacher", query: { id: response.data.data.id,username:response.data.data.username } });
             }
           }
         })
