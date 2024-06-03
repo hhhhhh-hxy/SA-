@@ -15,7 +15,8 @@ const fetchStudents = async () => {
   try {
     const response = await fetch(`http://y7xnys.natappfree.cc/studentCourse/studentList/${courseId}`, {
       headers: {
-        'token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoyLCJpZCI6MiwidXNlcm5hbWUiOiLmnZzogIHluIgiLCJleHAiOjE3MjUwOTQ2NjN9.plta-jHjmA3sm8SspIv6MCv-P3zirwLdFJwY1TaUOd4'
+        'token': `${token}`,  
+        // 'token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoyLCJpZCI6MiwidXNlcm5hbWUiOiLmnZzogIHluIgiLCJleHAiOjE3MjUwOTQ2NjN9.plta-jHjmA3sm8SspIv6MCv-P3zirwLdFJwY1TaUOd4'
       }
     });
 

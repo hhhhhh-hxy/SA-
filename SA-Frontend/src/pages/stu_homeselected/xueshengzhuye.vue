@@ -17,7 +17,8 @@ const fetchCourses = async () => {
   try {
     const response = await fetch('http://nenq7y.natappfree.cc/studentCourse/display/chosen', {
       headers: {
-        'token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoxLCJpZCI6MSwidXNlcm5hbWUiOiJBcHBlYXJpbmdPbk51bGxkYXkiLCJleHAiOjE3MjQ3NjcyNjN9.w6W3vwQRaBsMHwhRMho3doDIkVbIzC__KzWyRWyGn-c'
+        'token': `${token}`,  
+        // 'token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoxLCJpZCI6MSwidXNlcm5hbWUiOiJBcHBlYXJpbmdPbk51bGxkYXkiLCJleHAiOjE3MjQ3NjcyNjN9.w6W3vwQRaBsMHwhRMho3doDIkVbIzC__KzWyRWyGn-c'
       }
     });
 

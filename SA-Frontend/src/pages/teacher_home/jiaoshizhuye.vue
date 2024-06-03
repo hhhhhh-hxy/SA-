@@ -32,7 +32,7 @@ const saveCourse = async () => {
     const response = await fetch('http://127.0.0.1:4523/m1/4275697-3917645-default/course/add', {
       method: 'POST',
       headers: {
-        token : token
+        'token': `${token}`,  
       },
       body: JSON.stringify({
         title: newcourseName.value,
@@ -71,7 +71,7 @@ const fetchCourses = async () => {
     const response = await fetch('http://127.0.0.1:4523/m1/4275697-3917645-default/course/teacher/display/all', {
       headers: {
       // 'token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoyLCJpZCI6MiwidXNlcm5hbWUiOiLmnZzogIHluIgiLCJleHAiOjE3MjUwOTQ2NjN9.plta-jHjmA3sm8SspIv6MCv-P3zirwLdFJwY1TaUOd4'
-        token : token,
+      'token': `${token}`,  
       }
     });
 
@@ -203,8 +203,8 @@ const cancelDelete = () => {
               <div v-if="delModal" class="modal">
                 <div class="dialog">
                   <p>确定要删除该课程吗？</p>
-                  <button @click="deleteCourse(course.id)"class="confirm">确定</button>
-                  <button @click="cancelDelete"class="cancel">取消</button>
+                  <button @click="deleteCourse(course.id)" class="confirm">确定</button>
+                  <button @click="cancelDelete" class="cancel">取消</button>
                 </div>
               </div>
           </div>
