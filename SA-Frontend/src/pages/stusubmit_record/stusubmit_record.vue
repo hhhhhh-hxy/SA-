@@ -1,13 +1,53 @@
 <script setup>
-  import { useRouter } from 'vue-router';
-  import { reactive, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { reactive, onMounted } from 'vue';
+import axios from 'axios';
 
-  const props = defineProps({});
+const route = useRoute();
+const router = useRouter();
 
-  const data = reactive({});
+const token = localStorage.getItem('token');
+console.log(token);
 
-  const router = useRouter();
+const id = 1; // 确认id的值
+const studentId = route.params.studentId;
+const courseName = route.params.courseName;
+
+const homework = reactive({
+  submitTime: '',
+  content: '',
+  status: '',
+  statusDesc: '',
+  score: '',
+  comment: ''
+}); // 确保 homework 是响应式的
+
+onMounted(async () => {
+  try {
+    const homeworkResponse = await axios.get(
+      `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/student/view/${id}`, {
+        headers: {
+          token: `${token}`,
+        }
+      });
+
+    const homeworksData = homeworkResponse.data.data;
+    console.log("homeworkData:", homeworksData);
+
+    if (typeof homeworksData === 'object') {
+      Object.assign(homework, homeworksData);
+      console.log('作业详情：', homework);
+    } else {
+      console.error('homeworksData 不是一个对象:', homeworksData);
+    }
+
+  } catch (error) {
+    console.error('获取作业列表失败', error);
+  }
+});
+
 </script>
+
 
 <template>
   <div class="flex-col justify-start relative page">
@@ -21,48 +61,34 @@
           <div class="flex-row group_3">
             <div class="flex-row">
               <span class="font_3 text_5">作业1</span>
-              <span class="font_3 ml-43">课程：课程名称1</span>
+              <span class="font_3 ml-43">课程：{{courseName}}</span>
             </div>
-            <span class="font_3 text_6 ml-102">学生：张三</span>
+            <span class="font_3 text_6 ml-102">学生：{{studentId}}</span>
           </div>
           <div class="flex-row mt-13">
             <div class="flex-col justify-start items-start flex-1 text-wrapper">
-              <span class="font_3 text_7">作业详情：xxxxxx</span>
+              <span class="font_3 text_7">作业详情:{{homework.content}}</span>
             </div>
             <div class="flex-col items-start self-start group_4 ml-25">
-              <span class="font_3">分数：87</span>
-              <span class="font_3 text_8 mt-17">评语：xxxxxx</span>
+              <span class="font_3">分数:{{homework.score}}</span>
+              <span class="font_3 text_8 mt-17">评语:{{homework.comment}}</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="flex-col section_2">
-        <div class="flex-row group_3">
-          <div class="flex-row">
-            <span class="font_3 text_5">作业2</span>
-            <span class="font_3 ml-43">课程：课程名称1</span>
-          </div>
-          <span class="font_3 text_6 ml-102">学生：张三</span>
-        </div>
-        <div class="flex-row mt-13">
-          <div class="flex-col justify-start items-start flex-1 text-wrapper">
-            <span class="font_3 text_7">作业详情：xxxxxx</span>
-          </div>
-          <div class="flex-col items-start self-start group_4 ml-25">
-            <span class="font_3">分数：94</span>
-            <span class="font_3 text_8 mt-17">评语：xxxxxx</span>
-          </div>
-        </div>
-      </div>
+      <!-- Repeat for other homework assignments if necessary -->
+      <span class="font text pos_2">学习平台</span>
+      <img
+        class="image pos"
+        src="https://ide.code.fun/api/image?token=665d64a1602bd20012651796&name=45bf74e2aaa3f378925013102ceccc2c.png"
+      />
+      <router-link to="/xueshengzhuye" class="font text_2 pos_3">
+        学生主页
+      </router-link>
     </div>
-    <span class="font text pos_2">学习平台</span>
-    <img
-      class="image pos"
-      src="https://ide.code.fun/api/image?token=665d64a1602bd20012651796&name=45bf74e2aaa3f378925013102ceccc2c.png"
-    />
-    <span class="font text_2 pos_3">学生主页</span>
   </div>
 </template>
+
 
 <style scoped lang="css">
   .ml-45 {

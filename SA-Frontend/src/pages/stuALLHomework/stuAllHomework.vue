@@ -94,7 +94,7 @@
               <!-- 路由跳转 -->
                <!-- 联调时用下面的 -->
               <td><router-link  :to="'/writehomework/' + homework.homeworkId" class="font_2 text_2">完成作业</router-link></td>
-              <td><router-link  :to="'/submission_details/' + homework.homeworkId" class="font_2 text_2">查看详情</router-link></td>
+              <td><router-link  :to="'/stusubmit_record/' + homework.homeworkId" class="font_2 text_2">查看详情</router-link></td>
               <!-- <td><router-link v-if="homework.status === 2" :to="'/writehomework/' + homework.homeworkId" class="font_2 text_2">完成作业</router-link></td>
               <td><router-link v-if="homework.status === 1" :to="'/submission_details/' + homework.homeworkId" class="font_2 text_2">查看详情</router-link></td> -->
               <div class="shrink-0 divider mt-79"></div>
