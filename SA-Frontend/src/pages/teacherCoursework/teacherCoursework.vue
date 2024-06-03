@@ -65,7 +65,7 @@
     try{
       await axios.post(`http://127.0.0.1:4523/m1/4275697-0-default/homework/assign/${id}`, newHomework, {
         headers: {
-          token: token,
+          'token': `${token}`,  
         }
       });
       console.log("成功布置！");

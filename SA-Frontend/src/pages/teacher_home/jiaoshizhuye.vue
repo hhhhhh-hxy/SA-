@@ -24,7 +24,6 @@ onMounted(async () => {
 });
 
 //添加新的课程
-
 const saveCourse = async () => {
   try {
     // 发送 POST 请求将课程信息传回后端
@@ -35,11 +34,15 @@ const saveCourse = async () => {
       description: newcourseDetails.value
     }, {
       headers: {
-        token: token
-      }
+        'token': `${token}`,  
+      },
+      body: JSON.stringify({
+        title: newcourseName.value,
+        description: newcourseDetails.value
+      })
     });
 
-    if (response.status !== 200) {
+    if (!response.ok) {
       throw new Error('Failed to save course.');
     }
 
@@ -49,14 +52,14 @@ const saveCourse = async () => {
 
     // 关闭模态框
     showModal.value = false;
-
-    // 重新加载页面
+    //重新加载页面
     fetchCourses();
 
     console.log('课程信息已成功传回后端');
   } catch (error) {
     console.error('保存课程失败:', error.message);
   }
+
 };
 
 //展示课程
@@ -70,7 +73,7 @@ const fetchCourses = async () => {
     const response = await fetch('http://127.0.0.1:4523/m1/4275697-3917645-default/course/teacher/display/all', {
       headers: {
       // 'token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoyLCJpZCI6MiwidXNlcm5hbWUiOiLmnZzogIHluIgiLCJleHAiOjE3MjUwOTQ2NjN9.plta-jHjmA3sm8SspIv6MCv-P3zirwLdFJwY1TaUOd4'
-        token : token,
+      'token': `${token}`,  
       }
     });
 
@@ -119,7 +122,10 @@ const deleteCourse = async (courseID) => {
       //重新加载页面
       fetchCourses();
       console.log('删除课程成功');
-
+    } else {
+      // 处理删除失败的情况，比如显示错误信息
+      console.error('删除课程失败');
+    }
   } catch (error) {
     // 处理网络错误等异常情况
     console.error('删除课程时出错:', error);
@@ -197,8 +203,8 @@ const cancelDelete = () => {
               <div v-if="delModal" class="modal">
                 <div class="dialog">
                   <p>确定要删除该课程吗？</p>
-                  <button @click="deleteCourse(course.id)"class="confirm">确定</button>
-                  <button @click="cancelDelete"class="cancel">取消</button>
+                  <button @click="deleteCourse(course.id)" class="confirm">确定</button>
+                  <button @click="cancelDelete" class="cancel">取消</button>
                 </div>
               </div>
           </div>
