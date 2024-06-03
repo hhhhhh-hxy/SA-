@@ -1,7 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter,useRoute } from 'vue-router';
 
+const router = useRouter();
+const route = useRoute();
 const courses = ref([]);
+const studentId= route.query.teacherId;
 
 onMounted(async () => {
   await fetchCourses();
@@ -39,6 +43,11 @@ const fetchCourses = async () => {
     console.error('获取课程信息失败:', error);
   }
 };
+
+//页面跳转
+const goAllCourses = () => {
+  router.push({path:'/xueshengzhuye',query: {studentId: studentId}});  //跳转到学生主页
+};
 </script>
 
 <template>
@@ -61,7 +70,7 @@ const fetchCourses = async () => {
     </div>
     <div class="flex-col section_2">
       <div class="flex-row justify-between items-center group_3">
-        <span class="text_4">所有课程</span>
+        <span @click="goAllCourses()"class="text_4">所有课程</span>
         <span class="selected-courses">已选课程</span>
       </div>
       <div class="courses-container">
@@ -80,9 +89,9 @@ const fetchCourses = async () => {
           <div class="course-description">
             <span class="font_4 text_8">{{ course.description }}</span>
           </div>
-          <div class="flex-row">
+          <!-- <div class="flex-row">
             <button class="select-course-button">+ 选择课程</button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -152,6 +161,7 @@ const fetchCourses = async () => {
     font-size: 2.5rem;
     font-family: SourceHanSansCN;
     line-height: 2.32rem;
+    cursor: pointer;
   }
   .selected-courses {
     color: #0077ff;

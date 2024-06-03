@@ -34,6 +34,7 @@ onMounted(async () => {
 const fetchHomeworks = async () => {
   try {
     const homeworkResponse = await axios.get(
+     // `http://localhost:8081/submission/teacher/getAll/${homeworkId}`,status, {
       `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/teacher/getAll/${homeworkId}`,status, {
         headers: {
           token: `${token}`,

@@ -1,23 +1,32 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter,useRoute } from 'vue-router';
+import axios from 'axios';
 
+const router = useRouter();
+const route = useRoute();
 const courses = ref([]);
+const showModal = ref(false);
+const token = localStorage.getItem('token');
+const studentId= route.query.teacherId;
 
 onMounted(async () => {
   await fetchCourses();
 });
 
+
 const fetchCourses = async () => {
-  const token = localStorage.getItem('token');
   // if (!token) {
   //   console.error('Token not found in localStorage');
   //   return;
   // }
 
   try {
-    const response = await fetch('http://wnais8.natappfree.cc/course/student/display/all', {
+    const response = await fetch('http://127.0.0.1:4523/m1/4275697-3917645-default/course/student/display/all', {
+    // const response = await fetch('http://wnais8.natappfree.cc/course/student/display/all', {
       headers: {
-        'token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoxLCJpZCI6MSwidXNlcm5hbWUiOiJBcHBlYXJpbmdPbk51bGxkYXkiLCJleHAiOjE3MjQ3NjcyNjN9.w6W3vwQRaBsMHwhRMho3doDIkVbIzC__KzWyRWyGn-c'
+        token :token
+        //'token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoxLCJpZCI6MSwidXNlcm5hbWUiOiJBcHBlYXJpbmdPbk51bGxkYXkiLCJleHAiOjE3MjQ3NjcyNjN9.w6W3vwQRaBsMHwhRMho3doDIkVbIzC__KzWyRWyGn-c'
       }
     });
 
@@ -37,6 +46,41 @@ const fetchCourses = async () => {
   } catch (error) {
     console.error('获取课程信息失败:', error);
   }
+};
+
+//选课
+const confirmSelectCourse = () => {
+  showModal.value = true;
+  console.log("showModal.value = true");
+};
+const SelectCourse = async (courseID) => {
+  try {
+    const id = courseID;
+    console.log("id:", id);
+
+    // 设置请求头参数
+    const config = {
+      headers: {
+        token : token,
+      }
+    };
+
+    const response = await axios.post(`http://127.0.0.1:4523/m1/4275697-3917645-default/studentCourse/choose/${id}`, null, config); 
+    //const response = await axios.post(`http://localhost:8081/studentCourse/choose/${id}`, null, config); 
+      showModal.value = false;
+      console.log(response.data.data);
+
+  } catch (error) {
+    console.error('选择课程时出错:', error);
+  }
+};
+const cancelSelect = () => {
+  showModal.value = false;
+};
+
+//页面跳转
+const goSelected = () => {
+  router.push({path:'/xueshengxuanke',query: {studentId: studentId}});  //跳转到学生选课页
 };
 </script>
 
@@ -61,7 +105,7 @@ const fetchCourses = async () => {
     <div class="flex-col section_2">
       <div class="flex-row justify-between items-center group_3">
         <span class="text_4">所有课程</span>
-        <span class="selected-courses">已选课程</span>
+        <span @click="goSelected()"class="selected-courses">已选课程</span>
       </div>
       <div class="courses-container">
         <div v-for="(course, index) in courses" :key="index" class="course-card">
@@ -79,7 +123,14 @@ const fetchCourses = async () => {
             <span class="font_4 text_8">{{ course.description }}</span>
           </div>
           <div class="flex-row">
-          <button class="select-course-button">+ 选择课程</button>
+          <button @click="confirmSelectCourse()" class="select-course-button">+ 选择课程</button>
+          <div v-if="showModal" class="modal">
+                <div class="dialog">
+                  <p>确定要选择该课程吗？</p>
+                  <button @click="SelectCourse(course.id)"class="confirm">确定</button>
+                  <button @click="cancelSelect()"class="cancel">取消</button>
+                </div>
+              </div>
         </div>
         </div>
       </div>
@@ -156,6 +207,7 @@ const fetchCourses = async () => {
   font-size: 2.5rem;
   font-family: SourceHanSansCN;
   line-height: 2.32rem;
+  cursor: pointer;
 }
 .selected-courses {
   position: relative;
@@ -275,4 +327,64 @@ const fetchCourses = async () => {
   background-color: #2a82e4;
   color: #ffffff;
 }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+}
+    .modal.show {
+      opacity: 1;
+      visibility: visible;
+    } 
+    
+    .dialog {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      transform: scale(0.9);
+      transition: transform 0.3s;
+    }
+    
+    .modal.show .dialog {
+      transform: scale(1);
+    }
+    
+     
+    .confirm, .cancel {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 14px;
+    }
+     
+    .confirm {
+      background-color: #2a82e4;
+      color: white;
+    }
+    
+    .confirm:hover {
+      background-color: #2a82e4;
+    }
+    
+    .cancel {
+      background-color: #bcb9b9;
+      color: black;
+    }
+    
+    .cancel:hover {
+      background-color: #bcb9b9;
+    } 
 </style>

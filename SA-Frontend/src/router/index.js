@@ -5,7 +5,7 @@ import StuAllHomework from '../pages/stuALLHomework/StuAllHomework.vue'
 import teacher_home from '../pages/teacher_home/jiaoshizhuye.vue'
 import teachercourseStudent from '../pages/teachercourseStudent/kechengxuesheng.vue'
 import teachercheckhw from '../pages/teachercheckhw/teachercheckhw.vue'
-import xueshengzhuye from '../pages/teacher_home/jiaoshizhuye.vue'
+import xueshengzhuye from '../pages/stu_home/xueshengzhuye.vue'
 import xueshengxuanke from '../pages/stu_homeselected/xueshengzhuye.vue'
 import Stusubmit_record from '../pages/stusubmit_record/stusubmit_record.vue';
 import Pigaizuoye2 from '../pages/teacher_correct2/pigaizuoye2.vue';

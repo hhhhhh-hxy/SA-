@@ -29,6 +29,8 @@ const saveCourse = async () => {
   try {
     // 发送 POST 请求将课程信息传回后端
     const response = await axios.post('http://127.0.0.1:4523/m1/4275697-3917645-default/course/add', {
+    //const response = await axios.post('http://localhost:8081/course/add', {
+  
       title: newcourseName.value,
       description: newcourseDetails.value
     }, {
@@ -111,7 +113,7 @@ const deleteCourse = async (courseID) => {
 
     // 发送删除请求到服务器
     const response = await axios.post(`http://127.0.0.1:4523/m1/4275697-3917645-default/course/del/${id}`, null, config); 
-
+    //const response = await axios.post(`http://localhost:8081/course/del/${id}`, null, config); 
       // 成功删除课程，关闭模态框
       delModal.value = false;
       //重新加载页面
