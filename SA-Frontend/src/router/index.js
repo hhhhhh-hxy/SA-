@@ -4,9 +4,10 @@ import TeacherCoursework from '../pages/teacherCoursework/teacherCoursework.vue'
 import StuAllHomework from '../pages/stuALLHomework/StuAllHomework.vue'
 import teacher_home from '../pages/teacher_home/jiaoshizhuye.vue'
 import teachercourseStudent from '../pages/teachercourseStudent/kechengxuesheng.vue'
+import teachercheckhw from '../pages/teachercheckhw/teachercheckhw.vue'
 import xueshengzhuye from '../pages/teacher_home/jiaoshizhuye.vue'
 import xueshengxuanke from '../pages/stu_homeselected/xueshengzhuye.vue'
-
+import Stusubmit_record from '../pages/stusubmit_record/stusubmit_record.vue';
 import Pigaizuoye2 from '../pages/teacher_correct2/pigaizuoye2.vue';
 const routes = [
   {
@@ -32,7 +33,7 @@ const routes = [
   {
     path: '/teachercheckhw/:id',
     name: 'teachercheckhw',
-    component: Teachercheckhw,
+    component: teachercheckhw,
   },
   {
     path: '/teacher_home',
@@ -53,6 +54,11 @@ const routes = [
     path: '/xueshengxuanke',
     name: 'xueshengxuanke',
     component: xueshengxuanke,
+  },
+  {
+    path: '/stusubmit_record',
+    name: 'stusubmit_record',
+    component: Stusubmit_record,
   }
 ];
 
