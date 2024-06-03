@@ -110,7 +110,7 @@ const deleteCourse = async (courseID) => {
     // 设置请求头参数
     const config = {
       headers: {
-        token : token,
+        token : `${token}`,
       }
     };
 
@@ -122,10 +122,6 @@ const deleteCourse = async (courseID) => {
       //重新加载页面
       fetchCourses();
       console.log('删除课程成功');
-    } else {
-      // 处理删除失败的情况，比如显示错误信息
-      console.error('删除课程失败');
-    }
   } catch (error) {
     // 处理网络错误等异常情况
     console.error('删除课程时出错:', error);
