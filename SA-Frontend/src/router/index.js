@@ -30,6 +30,11 @@ const routes = [
     component: Pigaizuoye2,
   },
   {
+    path: '/teachercheckhw/:id',
+    name: 'teachercheckhw',
+    component: Teachercheckhw,
+  },
+  {
     path: '/teacher_home',
     name: 'teacher_home',
     component: teacher_home,
