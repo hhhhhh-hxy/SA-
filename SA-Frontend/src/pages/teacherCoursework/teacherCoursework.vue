@@ -191,7 +191,8 @@
               <td>{{ homework.end}}</td>
               <td>{{ homework.submitted }}/{{ homework.total }}</td>
               <!-- 跳转该作业的所有提交页 -->
-              <td><router-link  :to="'/submission_all/' + homework.id" class="font_2 text_2">查看详情</router-link></td>
+              <td><router-link  :to="'/teachercheckhw/' + homework.id" class="font_2 text_2">查看详情</router-link></td>
+              <!-- <td><router-link :to="{name: 'teachercheckhw', params: { id: homework.id, teacherId: teacherId, courseName:courseName}}" class="font_2 text_2">查看详情</router-link></td> -->
               <div class="shrink-0 divider mt-79"></div>
             </tr>
           </tbody>

@@ -1,37 +1,26 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
-import { reactive, onMounted,ref } from 'vue';
+import { reactive, onMounted } from 'vue';
 import axios from 'axios';
 
 const route = useRoute();
 const router = useRouter();
-const showModal = ref(false);
+
 const token = localStorage.getItem('token');
 console.log(token);
 
 // 获取作业id
-const homeworkId = route.query.id;
-const teacherId = route.query.teacherId;
-const courseName = route.query.courseName;
+const homeworkId = route.params.id;
+const teacherId = route.params.teacherId;
+const courseName = route.params.courseName;
 
-// console.log('homeworkId:', homeworkId);  
-// console.log('teacherId:', teacherId);
-// console.log('courseName:', courseName);
-
-const homeworkScore = ref('');
-const homeworkComments = ref('');
+console.log('homeworkId:', homeworkId);  // 调试 homeworkId
 
 const homeworks = reactive([]);
-const status = 2;
-
+const homework = reactive({});
+const status = 1;
 // 挂载时获取作业信息展示在页面
 onMounted(async () => {
-  await fetchHomeworks();
-});
-
-
-//展示课程
-const fetchHomeworks = async () => {
   try {
     const homeworkResponse = await axios.get(
       `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/teacher/getAll/${homeworkId}`,status, {
@@ -45,46 +34,31 @@ const fetchHomeworks = async () => {
 
     homeworks.splice(0);
     homeworks.push(...homeworksData);
+    /* homeworks.push(...homeworksData.filter(item => item.status === 1).map(item => ({
+      submitId: item.submitId,
+      comment: item.comment,
+      studentid: item.studentid,
+      studentName: item.studentName,
+      submitTime: item.submitTime,
+      content: item.content,
+      status: item.status,
+      statusDesc: item.statusDesc,
+      score: item.score
+    }))); */
 
     console.log('作业详情：', homeworks);
 
   } catch (error) {
     console.error('获取作业详情失败', error);
   }
-};
+});
 
 const goBack = () => {
   router.push({path:'/teacher_home',query: {teacherId: teacherId}});  //跳转到教师主页
 };
 
-const goTogradedPage = () => {
-  router.push({name: 'teachercheckhw', params: { id: homeworkId, teacherId: teacherId, courseName:courseName}});  // 跳转到未批改作业页面
-};
-
-//传入批改作业的数据
-const saveHwCmt = async (submitID) => {
-  const postData = {
-  submissionId: submitID,
-  score: parseFloat(homeworkScore.value), // 将字符串转换为数字
-  comment: homeworkComments.value
-};
-  try {
-    const response = await axios.post('http://127.0.0.1:4523/m1/4275697-3917645-default/grade/teacher/correct', postData, {
-      headers: {
-        token: `${token}`  
-      }
-    });
-    console.log('成功:', response.data.data);
-    homeworkScore.value = '';
-    homeworkComments.value = '';
-    // 关闭模态框
-    showModal.value = false;
-    //重新加载页面
-    fetchHomeworks();
-
-  } catch (error) {
-    console.error('错误:', error);
-  }
+const goToUngradedPage = () => {;
+  router.push({ path: '/teacher_correct2', query: {id:homeworkId, teacherId: teacherId, courseName:courseName} });  // 跳转到未批改作业页面
 };
 </script>
 
@@ -109,8 +83,8 @@ const saveHwCmt = async (submitID) => {
     </div>
     <div class="flex-col section_2">
       <div class="flex-row group_3">
-        <span class="font_2 text_4 "@click="goTogradedPage">已批改</span>
-        <span class="font_2 text_5 ml-45">待批改</span>
+        <span class="font_2 text_4">已批改</span>
+        <span class="font_2 text_5 ml-45" @click="goToUngradedPage">待批改</span>
       </div>
       <div class="flex-col">
         <div class="flex-col list-item" v-for="(homework, index) in homeworks" :key="index">
@@ -126,31 +100,8 @@ const saveHwCmt = async (submitID) => {
               <span class="font_3 text_8">作业详情:{{homework.content}}</span>
             </div>
             <div class="flex-col items-start self-start group_5 ml-27">
-              <button @click="showModal = true" class="confirm-button">批改作业</button>
-              <div v-if="showModal" class="modal">
-                <div class="modal-content">
-                  <!-- Modal header -->
-                  <div class="modal-header">
-                    <span class="modal-title">批改作业</span>
-                    <span @click="showModal = false" class="close-modal-button">&times;</span>
-                  </div>
-                  <!-- Modal body -->
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <label for="homeworkScore">作业评分</label>
-                      <input type="text" id="homeworkScore" v-model="homeworkScore" placeholder="请输入作业评分" />
-                    </div>
-                    <div class="form-group">
-                      <label for="homeworkComments">作业评语</label>
-                      <textarea id="homeworkComments" v-model="homeworkComments" placeholder="请输入作业评语"></textarea>
-                    </div>
-                  </div>
-                  <!-- Modal footer -->
-                  <div class="modal-footer">
-                    <button @click="saveHwCmt(homework.submitId)" class="confirm-button">确认</button>
-                  </div>
-                </div>
-              </div>
+              <span class="font_3">分数:{{homework.score}}</span>
+              <span class="font_3 text_9 mt-17">评语:{{homework.comment}}</span>
             </div>
           </div>
         </div>
@@ -158,6 +109,8 @@ const saveHwCmt = async (submitID) => {
     </div>
   </div>
 </template>
+
+
 
 <style scoped lang="css">
 .ml-21 {
@@ -244,11 +197,11 @@ const saveHwCmt = async (submitID) => {
   line-height: 1.85rem;
 }
 .text_4 {
-  color: #000000;
-  cursor: pointer;
+  color: #0077ff;
 }
 .text_5 {
-  color: #0077ff;
+  color: #000000;
+  cursor: pointer;
 }
 .list-item {
   padding: 1.13rem 2rem;
@@ -285,103 +238,5 @@ const saveHwCmt = async (submitID) => {
 }
 .text_9 {
   line-height: 1.51rem;
-}
-.confirm-button {
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-}
-
-.confirm-button:hover {
-  background-color: #0056b3;
-}
-
-.modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-}
-
-.modal-content {
-  background-color: #fff;
-  border-radius: 10px;
-  width: 500px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #e5e5e5;
-  padding-bottom: 10px;
-}
-
-.modal-title {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.close-modal-button {
-  font-size: 24px;
-  cursor: pointer;
-  color: #aaa;
-}
-
-.close-modal-button:hover {
-  color: #000;
-}
-
-.modal-body {
-  margin: 20px 0;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  border-color: #007BFF;
-  outline: none;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
 }
 </style>

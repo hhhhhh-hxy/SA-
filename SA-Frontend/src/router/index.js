@@ -6,7 +6,7 @@ import teacher_home from '../pages/teacher_home/jiaoshizhuye.vue'
 import teachercourseStudent from '../pages/teachercourseStudent/kechengxuesheng.vue'
 import xueshengzhuye from '../pages/teacher_home/jiaoshizhuye.vue'
 import xueshengxuanke from '../pages/stu_homeselected/xueshengzhuye.vue'
-
+import Teachercheckhw from '../pages/teachercheckhw/teachercheckhw.vue';
 import Pigaizuoye2 from '../pages/teacher_correct2/pigaizuoye2.vue';
 const routes = [
   {
@@ -48,6 +48,12 @@ const routes = [
     path: '/xueshengxuanke',
     name: 'xueshengxuanke',
     component: xueshengxuanke,
+  },
+  {
+    // path: '/teachercheckhw/:id/:teacherId/:courseName',
+    path: '/teachercheckhw/:id',
+    name: 'teachercheckhw',
+    component: Teachercheckhw,
   }
 ];
 
