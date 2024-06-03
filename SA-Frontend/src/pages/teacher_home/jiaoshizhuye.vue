@@ -35,16 +35,8 @@ const saveCourse = async () => {
     }, {
       headers: {
         'token': `${token}`,  
-      },
-      body: JSON.stringify({
-        title: newcourseName.value,
-        description: newcourseDetails.value
-      })
+      }
     });
-
-    if (!response.ok) {
-      throw new Error('Failed to save course.');
-    }
 
     // 清空表单
     newcourseName.value = '';
