@@ -54,11 +54,6 @@ const routes = [
     path: '/xueshengxuanke',
     name: 'xueshengxuanke',
     component: xueshengxuanke,
-  },
-  {
-    path: '/stusubmit_record/:id',
-    name: 'stusubmit_record',
-    component: Stusubmit_record,
   }
 ];
 

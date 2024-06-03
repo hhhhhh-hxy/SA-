@@ -54,11 +54,11 @@ onMounted(async () => {
 });
 
 const goBack = () => {
-  router.push('/teacherCoursework');  // 替换为实际的返回页面路由
+  router.push({path:'/teacher_home',query: {teacherId: teacherId}});  //跳转到教师主页
 };
 
-const goToUngradedPage = () => {
-  router.push('/pigaizuoye2');  // 跳转到未批改作业页面
+const goToUngradedPage = () => {;
+  router.push({ path: '/teacher_correct2', query: {id:homeworkId, teacherId: teacherId, courseName:courseName} });  // 跳转到未批改作业页面
 };
 </script>
 
@@ -73,7 +73,7 @@ const goToUngradedPage = () => {
         <span class="font text ml-21">学习平台</span>
       </div>
       <div class="flex-row items-center group_2">
-        <button @click="goBack" class="font_2 text_2 text_3">教师主页</button>
+        <span @click="goBack" class="fonta">教师主页</span>
         <div class="ml-62 flex-row items-center shrink-0">
           <span class="font">教师id:{{teacherId}}</span>
           <div class="shrink-0 section ml-23"></div>
@@ -157,6 +157,13 @@ const goToUngradedPage = () => {
   font-family: SourceHanSansCN;
   line-height: 1.15rem;
   color: #000000;
+}
+.fonta {
+  font-size: 1.25rem;
+  font-family: SourceHanSansCN;
+  line-height: 1.15rem;
+  cursor: pointer;
+  color: #0077ff;
 }
 .text {
   line-height: 1.16rem;
