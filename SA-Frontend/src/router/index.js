@@ -7,7 +7,7 @@ import teachercourseStudent from '../pages/teachercourseStudent/kechengxuesheng.
 import teachercheckhw from '../pages/teachercheckhw/teachercheckhw.vue'
 import xueshengzhuye from '../pages/teacher_home/jiaoshizhuye.vue'
 import xueshengxuanke from '../pages/stu_homeselected/xueshengzhuye.vue'
-import Stusubmit_record from '../pages/stusubmit_record/stusubmit_record.vue';
+// import Stusubmit_record from '../pages/stusubmit_record/stusubmit_record.vue';
 import Pigaizuoye2 from '../pages/teacher_correct2/pigaizuoye2.vue';
 const routes = [
   {
@@ -55,11 +55,11 @@ const routes = [
     name: 'xueshengxuanke',
     component: xueshengxuanke,
   },
-  {
+  /* {
     path: '/stusubmit_record',
     name: 'stusubmit_record',
     component: Stusubmit_record,
-  }
+  } */
 ];
 
 const router = createRouter({
