@@ -6,8 +6,7 @@ import teacher_home from '../pages/teacher_home/jiaoshizhuye.vue'
 import Pigaizuoye2 from '../pages/teacher_correct2/pigaizuoye2.vue';
 import teachercourseStudent from '../pages/teachercourseStudent/kechengxuesheng.vue'
 
-import Pigaizuoye1 from '../pages/pigaizuoye1/pigaizuoye1.vue';
-import Pigaizuoye2 from '../pages/pigaizuoye2/pigaizuoye2.vue';
+import Pigaizuoye2 from '../pages/teacher_correct2/pigaizuoye2.vue';
 const routes = [
   {
     path: '/login',
