@@ -10,14 +10,15 @@
   console.log(token);
 
   //上个页面通过路由参数传来的课程id
-  // const id = route.params.id;
+  const id = route.query.courseId;
+  console.log("课程id",id);
   //先测试把id置为1
-  const id = 1;
+  // const id = 1;
 
   //上个页面路由得到教师id和课程名字
-  const teacherId = route.params.teacherId;
-  const courseName = route.params.courseName;
-  const studentId = route.params.studentId;
+  const teacherId = route.query.teacherId;
+  const courseName = route.query.courseName;
+
 
   const homeworks = reactive([]);
   const homework = reactive({});
@@ -51,19 +52,20 @@
       const day = now.getDate().toString().padStart(2, '0');
       const hour = now.getHours().toString().padStart(2, '0');
       const minute = now.getMinutes().toString().padStart(2, '0');
-      return `${year}-${month}-${day}T${hour}:${minute}`;
+      // const second = now.getSeconds().toString().padStart(2, '0');
+      return `${year}-${month}-${day}T${hour}:${minute}:00`;
     };
 
     const newHomework = {
       title: homeworkData.title,
       description: homeworkData.description,
-      start: homeworkData.start,
-      end: homeworkData.end,
+      start: homeworkData.start.toString(),
+      end: homeworkData.end.toString(),
     }
-
+    console.log("newhomework",newHomework);
     console.log(newHomework);
     try{
-      await axios.post(`http://127.0.0.1:4523/m1/4275697-0-default/homework/assign/${id}`, newHomework, {
+      await axios.post(`http://localhost:8081/homework/assign/${id}`, newHomework, {
         headers: {
           'token': `${token}`,  
         }
@@ -86,7 +88,7 @@
   onMounted(async () => {
     try {
       const homeworkResponse = await axios.get(
-          `http://127.0.0.1:4523/m1/4275697-0-default/homework/displayAll/${id}`, {
+          `http://localhost:8081/homework/displayAll/${id}`, {
             headers: {
               token: `${token}`,
             }
@@ -118,7 +120,7 @@
       </div>
       <div class="flex-row items-center group_2">
         <!-- 跳转教师主页 -->
-        <router-link to="/teacher_homepage" class="font_2 text_2 text_3">教师主页</router-link>
+        <router-link to="/teacher_home" class="font_2 text_2 text_3">教师主页</router-link>
         <!-- <router-link  :to="{path:'/teacher_correct1',query:{teacherid:teacherId}}" class="font_2 text_2 text_4">批改作业</router-link> -->
         <div class="flex-row items-center shrink-0 group_3">
           <span class="font text_5">课程名称:{{courseName}}</span>
@@ -152,8 +154,8 @@
                           <div class="self-stretch divider mt-2"></div> 
                       </div>
                       <div class="input-group">
-                          <span class="self-start font">课程名称：</span>
-                          <input type="text" placeholder="请输入课程名称" class="font_2 input-style" v-model="homeworkData.title"/> 
+                          <span class="self-start font">作业名称：</span>
+                          <input type="text" placeholder="请输入作业名称" class="font_2 input-style" v-model="homeworkData.title"/>
                       </div>
                       <div class="input-group">
                           <span class="self-start font">作业内容：</span>
@@ -162,7 +164,7 @@
                       <div class="flex-row justify-start items-start group_5">
                           <div class="flex-col relative">
                               <span class="font text_5">开始时间：</span>
-                              <input type="datetime-local" value="{{ getCurrentDate() }}" class="input-style" v-model="homeworkData.start"/> 
+                              <input type="datetime-local" value="{{ getCurrentDate()}}" class="input-style" v-model="homeworkData.start"/>
                           </div>
                           <div class="flex-col relative">
                               <span class="font text_6">结束时间：</span>

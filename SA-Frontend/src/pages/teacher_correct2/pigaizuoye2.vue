@@ -34,8 +34,8 @@ onMounted(async () => {
 const fetchHomeworks = async () => {
   try {
     const homeworkResponse = await axios.get(
-     // `http://localhost:8081/submission/teacher/getAll/${homeworkId}`,status, {
-      `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/teacher/getAll/${homeworkId}`,status, {
+     `http://localhost:8081/submission/teacher/getAll/${homeworkId}?status=${status}`, {
+      // `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/teacher/getAll/${homeworkId}`,status, {
         headers: {
           token: `${token}`,
         }
@@ -70,7 +70,7 @@ const saveHwCmt = async (submitID) => {
   comment: homeworkComments.value
 };
   try {
-    const response = await axios.post('http://127.0.0.1:4523/m1/4275697-3917645-default/grade/teacher/correct', postData, {
+    const response = await axios.post('http://localhost:8081/grade/teacher/correct', postData, {
       headers: {
         token: `${token}`  
       }
