@@ -11,6 +11,7 @@ console.log(token);
 
 // 获取作业id
 const homeworkId = route.params.id;
+const id = homeworkId;
 const teacherId = route.params.teacherId;
 const courseName = route.params.courseName;
 
@@ -23,7 +24,7 @@ const status = 1;
 onMounted(async () => {
   try {
     const homeworkResponse = await axios.get(
-      `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/teacher/getAll/${homeworkId}`,status, {
+      `http://localhost:8081/submission/teacher/getAll/${id}?status=${status}`,{
         headers: {
           token: `${token}`,
         }
@@ -57,7 +58,7 @@ const goBack = () => {
   router.push({path:'/teacher_home',query: {teacherId: teacherId}});  //跳转到教师主页
 };
 
-const goToUngradedPage = () => {;
+const goToUngradedPage = () => {
   router.push({ path: '/teacher_correct2', query: {id:homeworkId, teacherId: teacherId, courseName:courseName} });  // 跳转到未批改作业页面
 };
 </script>

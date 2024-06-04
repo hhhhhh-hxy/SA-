@@ -27,8 +27,8 @@ onMounted(async () => {
 const saveCourse = async () => {
   try {
     // 发送 POST 请求将课程信息传回后端
-    const response = await axios.post('http://127.0.0.1:4523/m1/4275697-3917645-default/course/add', {
-    //const response = await axios.post('http://localhost:8081/course/add', {
+    // const response = await axios.post('http://127.0.0.1:4523/m1/4275697-3917645-default/course/add', {
+    const response = await axios.post('http://localhost:8081/course/add', {
   
       title: newcourseName.value,
       description: newcourseDetails.value
@@ -62,7 +62,7 @@ const fetchCourses = async () => {
   // }
 
   try {
-    const response = await fetch('http://127.0.0.1:4523/m1/4275697-3917645-default/course/teacher/display/all', {
+    const response = await fetch('http://localhost:8081/course/teacher/display/all', {
       headers: {
       // 'token': 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoyLCJpZCI6MiwidXNlcm5hbWUiOiLmnZzogIHluIgiLCJleHAiOjE3MjUwOTQ2NjN9.plta-jHjmA3sm8SspIv6MCv-P3zirwLdFJwY1TaUOd4'
       'token': `${token}`,  
@@ -107,8 +107,8 @@ const deleteCourse = async (courseID) => {
     };
 
     // 发送删除请求到服务器
-    const response = await axios.post(`http://127.0.0.1:4523/m1/4275697-3917645-default/course/del/${id}`, null, config); 
-    //const response = await axios.post(`http://localhost:8081/course/del/${id}`, null, config); 
+    // const response = await axios.post(`http://127.0.0.1:4523/m1/4275697-3917645-default/course/del/${id}`, null, config);
+    const response = await axios.post(`http://localhost:8081/course/del/${id}`, null, config);
       // 成功删除课程，关闭模态框
       delModal.value = false;
       //重新加载页面
@@ -196,7 +196,13 @@ const cancelDelete = () => {
                 </div>
               </div>
           </div>
-          <span class="course-title">{{ course.title }}</span>
+<!--          <span class="course-title">{{ course.title }}</span>-->
+          <div class="course-title">
+            <!-- 使用to属性进行路由导航，并将课程ID作为参数传递 -->
+            <router-link :to="{ name: 'teacherCoursework', query: { courseId: course.id } }">
+              {{ course.title }}
+            </router-link>
+          </div>
           <div class="course-description">
             <span class="font_4 text_8">{{ course.description }}</span>
             <img class="description-image" :src="course.descriptionImage" />

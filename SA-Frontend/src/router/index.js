@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../pages/login/login.vue';
 import TeacherCoursework from '../pages/teacherCoursework/teacherCoursework.vue'
-import StuAllHomework from '../pages/stuALLHomework/StuAllHomework.vue'
+import StuAllHomework from '../pages/stuALLHomework/stuAllHomework.vue'
 import teacher_home from '../pages/teacher_home/jiaoshizhuye.vue'
 import teachercourseStudent from '../pages/teachercourseStudent/kechengxuesheng.vue'
 import teachercheckhw from '../pages/teachercheckhw/teachercheckhw.vue'
