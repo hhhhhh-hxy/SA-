@@ -138,7 +138,7 @@ const cancelDelete = () => {
       <div class="flex-row items-center group_2">
         <span class="font text_2">批改作业</span>
         <div class="ml-64 flex-row items-center shrink-0">
-          <span class="font">教师id：xxxxxx</span>
+          <span class="font">教师id:</span>
           <div class="shrink-0 section ml-23"></div>
           <span class="font text_3 ml-23">退出</span>
         </div>
