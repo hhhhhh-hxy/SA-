@@ -24,7 +24,9 @@ const status = 1;
 onMounted(async () => {
   try {
     const homeworkResponse = await axios.get(
-      `http://localhost:8081/submission/teacher/getAll/${id}?status=${status}`,{
+      //`http://localhost:8081/submission/teacher/getAll/${id}?status=${status}`,{
+      `http://127.0.0.1:4523/m1/4275697-3917645-default/submission/teacher/getAll/${id}?status=${status}`,{
+      
         headers: {
           token: `${token}`,
         }
@@ -64,47 +66,46 @@ const goToUngradedPage = () => {
 </script>
 
 <template>
-  <div class="flex-col page">
-    <div class="flex-row justify-between items-center group">
-      <div class="flex-row items-center">
+  <div class="page">
+    <div class="header">
+      <div class="logo-title">
         <img
-          class="shrink-0 image"
+          class="logo"
           src="https://ide.code.fun/api/image?token=66599d92a16e9e001250e3c1&name=8bd85cbb23a1e00189933e111b07158c.png"
+          alt="Logo"
         />
-        <span class="font text ml-21">学习平台</span>
+        <span class="title">学习平台</span>
       </div>
-      <div class="flex-row items-center group_2">
-        <span @click="goBack" class="fonta">教师主页</span>
-        <div class="ml-62 flex-row items-center shrink-0">
-          <span class="font">教师id:{{teacherId}}</span>
-          <div class="shrink-0 section ml-23"></div>
-          <span class="font text_3 ml-23">退出</span>
+      <div class="header-actions">
+        <span @click="goBack" class="link">教师主页</span>
+        <div class="user-info">
+          <span>教师ID: {{ teacherId }}</span>
+          <div class="separator"></div>
+          <span class="link">退出</span>
         </div>
       </div>
     </div>
-    <div class="flex-col section_2">
-      <div class="flex-row group_3">
-        <span class="font_2 text_4">已批改</span>
-        <span class="font_2 text_5 ml-45" @click="goToUngradedPage">待批改</span>
+    <div class="content">
+      <div class="tabs">
+        <span class="tab active">已批改</span>
+        <span class="tab" @click="goToUngradedPage">待批改</span>
       </div>
-      <div class="flex-col">
-        <div class="flex-col list-item" v-for="(homework, index) in homeworks" :key="index">
-          <div class="flex-row group_4">
-            <div class="flex-row">
-              <span class="font_3 text_6">作业:{{homework.submitId}}</span>
-              <span class="font_3 ml-43">课程:{{courseName}}</span>
-            </div>
-            <span class="font_3 text_7 ml-102">学生:{{homework.studentName}}</span>
-          </div>
-          <div class="flex-row mt-13">
-            <div class="flex-col justify-start items-start flex-1 text-wrapper">
-              <span class="font_3 text_8">作业详情:{{homework.content}}</span>
-            </div>
-            <div class="flex-col items-start self-start group_5 ml-27">
-              <span class="font_3">分数:{{homework.score}}</span>
-              <span class="font_3 text_9 mt-17">评语:{{homework.comment}}</span>
-            </div>
-          </div>
+      <div class="homework-list">
+        <div class="homework-header">
+          <span class="header-item">作业</span>
+          <span class="header-item">课程</span>
+          <span class="header-item">学生</span>
+          <span class="header-item">作业详情</span>
+          <span class="header-item">分数</span>
+          <span class="header-item">评语</span>
+        </div>
+        <div class="homework-item" v-for="(homework, index) in homeworks" :key="index">
+          <span class="item">{{ homework.submitId }}</span>
+          <span class="item">{{ courseName }}</span>
+          <span class="item">{{ homework.studentName }}</span>
+          <span class="item">{{ homework.content }}</span>
+          <span class="item">{{ homework.score }}</span>
+          <span class="item">{{ homework.comment }}</span>
         </div>
       </div>
     </div>
@@ -112,132 +113,121 @@ const goToUngradedPage = () => {
 </template>
 
 
-
 <style scoped lang="css">
-.ml-21 {
-  margin-left: 1.31rem;
-}
-.ml-23 {
-  margin-left: 1.44rem;
-}
-.ml-45 {
-  margin-left: 2.81rem;
-}
-.ml-43 {
-  margin-left: 2.69rem;
-}
-.ml-102 {
-  margin-left: 6.38rem;
-}
-.mt-13 {
-  margin-top: 0.81rem;
-}
-.ml-27 {
-  margin-left: 1.69rem;
-}
-.mt-17 {
-  margin-top: 1.06rem;
-}
 .page {
-  padding: 0 2.5rem 2.81rem;
+  padding: 20px;
   background-color: #fbfbfd;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
   height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
-.group {
-  padding: 1.88rem 0;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
 }
-.image {
-  width: 2.38rem;
-  height: 2.5rem;
+
+.logo-title {
+  display: flex;
+  align-items: center;
 }
-.font {
-  font-size: 1.25rem;
-  font-family: SourceHanSansCN;
-  line-height: 1.15rem;
-  color: #000000;
+
+.logo {
+  width: 38px;
+  height: 40px;
 }
-.fonta {
-  font-size: 1.25rem;
-  font-family: SourceHanSansCN;
-  line-height: 1.15rem;
+
+.title {
+  margin-left: 20px;
+  font-size: 20px;
+  font-family: SourceHanSansCN, sans-serif;
+  font-weight: bold;
+  color: #000;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.link {
   cursor: pointer;
   color: #0077ff;
+  margin-left: 20px;
+  font-size: 16px;
 }
-.text {
-  line-height: 1.16rem;
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-left: 40px;
 }
-.group_2 {
-  margin-right: 0.63rem;
+
+.separator {
+  width: 1px;
+  height: 25px;
+  background-color: #000;
+  margin: 0 15px;
 }
-.text_2 {
-  color: #0077ff;
-  text-decoration: underline;
+
+.content {
+  padding-top: 20px;
 }
-.section {
-  background-color: #000000;
-  width: 0.063rem;
-  height: 1.56rem;
+
+.tabs {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
 }
-.text_3 {
-  line-height: 1.15rem;
-}
-.section_2 {
-  padding: 1.88rem 1.63rem 5.88rem;
-  background-color: #ffffff;
-  overflow: hidden;
-}
-.group_3 {
-  padding: 1.38rem 3.38rem;
-}
-.font_2 {
-  font-size: 2rem;
-  font-family: SourceHanSansCN;
-  line-height: 1.85rem;
-}
-.text_4 {
-  color: #0077ff;
-}
-.text_5 {
-  color: #000000;
+
+.tab {
+  font-size: 18px;
+  margin-right: 20px;
   cursor: pointer;
+  color: #000;
+  font-weight: bold;
 }
-.list-item {
-  padding: 1.13rem 2rem;
-  background-color: #fbfbfd;
-  border-top: solid 0.063rem #b8b8b8;
+
+.tab.active {
+  color: #0077ff;
 }
-.group_4 {
-  padding: 0 0.5rem;
+
+.homework-list {
+  width: 100%;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
-.font_3 {
-  font-size: 1.69rem;
-  font-family: SourceHanSansCN;
-  line-height: 1.56rem;
-  color: #000000;
+
+.homework-header,
+.homework-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
-.text_6 {
-  line-height: 1.54rem;
+
+.homework-header {
+  background-color: #f5f5f5;
+  font-weight: bold;
 }
-.text_7 {
-  line-height: 1.58rem;
+
+.header-item,
+.item {
+  flex: 1;
+  text-align: center;
 }
-.text-wrapper {
-  padding: 0.63rem 0 8.75rem;
-  background-color: #ffffff;
-  height: 10.94rem;
+
+.item {
+  word-break: break-all;
 }
-.text_8 {
-  margin-left: 0.38rem;
-  line-height: 1.56rem;
-}
-.group_5 {
-  margin-right: 5.63rem;
-  margin-top: 4.63rem;
-}
-.text_9 {
-  line-height: 1.51rem;
+
+.homework-item:last-child {
+  border-bottom: none;
 }
 </style>

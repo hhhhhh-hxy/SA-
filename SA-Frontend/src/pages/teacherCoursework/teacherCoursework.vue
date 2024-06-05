@@ -88,7 +88,8 @@
   onMounted(async () => {
     try {
       const homeworkResponse = await axios.get(
-          `http://localhost:8081/homework/displayAll/${id}`, {
+         // `http://localhost:8081/homework/displayAll/${id}`, {
+         `http://127.0.0.1:4523/m1/4275697-3917645-default/homework/displayAll/${id}`, {
             headers: {
               token: `${token}`,
             }
