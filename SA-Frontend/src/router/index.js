@@ -9,6 +9,7 @@ import xueshengzhuye from '../pages/stu_home/xueshengzhuye.vue'
 import xueshengxuanke from '../pages/stu_homeselected/xueshengzhuye.vue'
 import Stusubmit_record from '../pages/stusubmit_record/stusubmit_record.vue';
 import Pigaizuoye2 from '../pages/teacher_correct2/pigaizuoye2.vue';
+import Stusubmit_homework from '../pages/stusubmit_homework/stusubmit_homework.vue';
 const routes = [
   {
     path: '/login',
@@ -59,6 +60,11 @@ const routes = [
     path: '/stusubmit_record/:id',
     name: 'stusubmit_record',
     component: Stusubmit_record,
+  },
+  {
+    path: '/stusubmit_homework/:id',
+    name: 'stusubmit_homework',
+    component: Stusubmit_homework,
   }
 ];
 
